@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Expense Tracker - Mobile Friendly</title>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg-color: #fafafa;
+    --card-bg: #fff;
+    --text-color: #262626;
+    --label-color: #8e8e8e;
+    --input-bg: #fafafa;
+    --input-border: #dbdbdb;
+    --button-gradient: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
+    --summary-bg: #fafafa;
+    --highlight-color: #ff2d55;
+  }
+
+  body.dark-mode {
+    --bg-color: #121212;
+    --card-bg: #1e1e1e;
+    --text-color: #f0f0f0;
+    --label-color: #b0b0b0;
+    --input-bg: #2a2a2a;
+    --input-border: #444;
+    --button-gradient: linear-gradient(45deg, #833ab4, #fd1d1d, #fcb045);
+    --summary-bg: #1e1e1e;
+    --highlight-color: #ff79a6;
+  }
+
+  * { box-sizing: border-box; font-family: 'Roboto', sans-serif; transition: all 0.3s ease; }
+  body { margin:0; padding:0; background: var(--bg-color); display:flex; justify-content:center; align-items:flex-start; min-height:100vh; padding:20px; }
+
+  .container {
+    width: 100%;
+    max-width: 400px;
+    background: var(--card-bg);
+    border-radius: 25px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    padding: 20px;
+    overflow:hidden;
+  }
+
+  .header {
+    display: flex; justify-content: space-between; align-items:center; margin-bottom:20px; flex-wrap:wrap;
+  }
+
+  h1 { font-size:24px; color: var(--text-color); margin:0; font-weight:700; flex:1; }
+  .dark-toggle { padding:6px 12px; border-radius:20px; border:1px solid var(--text-color); background:none; color:var(--text-color); cursor:pointer; transition:0.3s; margin-top:5px; }
+  .dark-toggle:hover { background: var(--text-color); color: var(--card-bg); }
+
+  .card {
+    background: var(--card-bg);
+    border-radius: 20px;
+    padding: 15px 20px;
+    margin-bottom: 15px;
+    border: 1px solid #e6e6e6;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.03);
+  }
+  .history.hidden {
+  display: none;
+}
+
+  .card label { display:block; font-weight:500; color: var(--label-color); margin-bottom:6px; font-size:14px; }
+  .card input { width:100%; padding:12px; border-radius:12px; border:1px solid var(--input-border); font-size:16px; outline:none; background:var(--input-bg); color: var(--text-color); }
+
+  button.calculate-btn { width:100%; padding:14px; border-radius:15px; border:none; background: var(--button-gradient); color:white; font-size:16px; font-weight:600; cursor:pointer; }
+  button.calculate-btn:hover { transform: scale(1.05); }
+
+  .summary {
+    background: var(--summary-bg);
+    border-radius: 20px;
+    padding:20px;
+    margin-top:20px;
+    border:1px solid #e6e6e6;
+    opacity:0; transform:translateY(20px);
+  }
+  .summary.active { opacity:1; transform:translateY(0); }
+  .summary p { display:flex; justify-content:space-between; margin:12px 0; font-size:16px; font-weight:500; color: var(--text-color); }
+  .summary p span { font-weight:700; }
+  .highlight span { color: var(--highlight-color); }
+
+  /* History */
+  .history { margin-top:15px; }
+  .history h3 { margin-bottom:10px; color: var(--text-color); font-size:16px; }
+  .history ul { list-style:none; padding:0; max-height:200px; overflow-y:auto; }
+  .history li { padding:10px; border-bottom:1px solid #e6e6e6; font-size:14px; color: var(--text-color); }
+
+  /* Toggle History Button */
+  #toggleHistoryBtn { padding:6px 12px; border-radius:20px; border:1px solid var(--text-color); background:none; color:var(--text-color); cursor:pointer; margin-bottom:10px; }
+  #toggleHistoryBtn:hover { background: var(--text-color); color: var(--card-bg); }
+
+  /* Mobile responsiveness */
+  @media (max-width:480px){
+    h1 { font-size:20px; }
+    .card input { font-size:14px; padding:10px; }
+    button.calculate-btn { font-size:14px; padding:12px; }
+    .summary p { font-size:14px; }
+    .history li { font-size:13px; }
+  }
+
+</style>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+</head>
+<body>
+
+<div class="container">
+
+  <div class="header">
+    <h1>Expense Tracker</h1>
+    <button class="dark-toggle" onclick="toggleDarkMode()">🌙</button>
+  </div>
+
+  <!-- Input Cards -->
+  <div class="card"><label>💰 Current Bank Balance</label><input type="number" id="bankBalance" placeholder="e.g. 5000"></div>
+  <div class="card"><label>🔒 Blocked Amount</label><input type="number" id="blockedAmount" placeholder="e.g. 500"></div>
+  <div class="card"><label>🤝 Loan to Friends</label><input type="number" id="loanFriends" placeholder="e.g. 800"></div>
+  <div class="card"><label>🧾 Tax Return (Expected)</label><input type="number" id="taxReturn" placeholder="e.g. 300"></div>
+  <div class="card"><label>💵 Upcoming Salary</label><input type="number" id="salary" placeholder="e.g. 2000"></div>
+
+  <!-- Calculate Button -->
+  <div class="card"><button class="calculate-btn" onclick="calculate()">Calculate</button></div>
+
+  <!-- Summary -->
+  <div class="summary" id="summary">
+    <p class="highlight"><span>Total Amount</span><span id="totalAmount">€0</span></p>
+    <p class="MyAsset"><span>My Asset</span><span id="myAsset">€0</span></p>
+    <p class="Conversion"><span>In PKR</span><span id="PKR">₹0</span></p>
+  </div>
+    <!-- Pie Chart -->
+<div class="card">
+  <canvas id="assetChart" style="max-width:100%;"></canvas>
+</div>
+
+  <!-- Toggle History -->
+  <button id="toggleHistoryBtn">Hide History</button>
+
+  <!-- History Log -->
+  <div class="history" id="history">
+    <h3>Calculation History</h3>
+    <ul id="historyList"></ul>
+  </div>
+
+</div>
+
+<script>
+  function toggleDarkMode(){document.body.classList.toggle('dark-mode');}
+
+  const MAX_HISTORY = 10;
+
+  function calculate(){
+    const Room_deposit=480;
+    const bank=Number(document.getElementById('bankBalance').value)||0;
+    const blocked=Number(document.getElementById('blockedAmount').value)||0;
+    const loan=Number(document.getElementById('loanFriends').value)||0;
+    const tax=Number(document.getElementById('taxReturn').value)||0;
+    const salary=Number(document.getElementById('salary').value)||0;
+
+    const totalAmount=bank+blocked+loan+tax+salary+Room_deposit;
+    const Mybalance=totalAmount-10000;
+    const Conversion=Mybalance*330;
+
+    document.getElementById('totalAmount').innerText=`€${totalAmount}`;
+    document.getElementById('myAsset').innerText=`€${Mybalance}`;
+    document.getElementById('PKR').innerText=`₹${Conversion}`;
+
+    document.getElementById('summary').classList.add('active');
+
+    countUp('totalAmount',totalAmount);
+    countUp('myAsset',Mybalance);
+    countUp('PKR',Conversion);
+
+    addHistory(totalAmount,Mybalance,Conversion);
+    updateChart(bank, blocked, loan, tax, salary);
+  }
+  
+
+
+  function addHistory(total,asset,conversion){
+    let history=JSON.parse(localStorage.getItem('calcHistory'))||[];
+    const now=new Date();
+    const entry={total,asset,conversion,time:now.toLocaleString()};
+    history.unshift(entry);
+    if(history.length>MAX_HISTORY) history.pop();
+    localStorage.setItem('calcHistory',JSON.stringify(history));
+    renderHistory();
+  }
+
+  function renderHistory(){
+    const historyList=document.getElementById('historyList');
+    const history=JSON.parse(localStorage.getItem('calcHistory'))||[];
+    historyList.innerHTML='';
+    history.forEach(entry=>{
+      const li=document.createElement('li');
+      li.innerHTML=`<strong>${entry.time}</strong> - Total: €${entry.total}, Asset: €${entry.asset}, PKR: ₹${entry.conversion}`;
+      historyList.appendChild(li);
+    });
+  }
+
+  window.onload=renderHistory;
+  
+ const toggleHistoryBtn = document.getElementById('toggleHistoryBtn');
+const historyDiv = document.getElementById('history');
+
+toggleHistoryBtn.addEventListener('click', () => {
+  historyDiv.classList.toggle('hidden'); // toggle the "hidden" class
+  if (historyDiv.classList.contains('hidden')) {
+    toggleHistoryBtn.innerText = 'Show History';
+  } else {
+    toggleHistoryBtn.innerText = 'Hide History';
+  }
+});
+
+  
+  function countUp(id,target){
+    let element=document.getElementById(id);
+    let current=0;
+    const step=target/100;
+    const interval=setInterval(()=>{
+      current+=step;
+      if(current>=target){
+        current=target; clearInterval(interval);
+      }
+      element.innerText=id==='PKR'?`₹${Math.floor(current)}`:`€${Math.floor(current)}`;
+    },10);
+  }
+
+//   
+let assetChart; // Global variable for chart instance
+
+function updateChart(bank, blocked, loan, tax, salary) {
+  const ctx = document.getElementById('assetChart').getContext('2d');
+
+  const data = {
+    labels: ['Bank Balance', 'Blocked Amount', 'Loan to Friends', 'Tax Return', 'Upcoming Salary', 'Room Deposit'],
+    datasets: [{
+      label: 'Assets Distribution',
+      data: [bank, blocked, loan, tax, salary, 480], // Room deposit fixed
+      backgroundColor: [
+        '#f44336', // red
+        '#2196f3', // blue
+        '#ff9800', // orange
+        '#4caf50', // green
+        '#9c27b0', // purple
+        '#00bcd4'  // cyan
+      ],
+      borderWidth: 1
+    }]
+  };
+
+  const options = {
+    responsive: true,
+    plugins: {
+      legend: { position: 'bottom' },
+      tooltip: { enabled: true }
+    }
+  };
+
+  if (assetChart) {
+    assetChart.data.datasets[0].data = data.datasets[0].data; // update data
+    assetChart.update();
+  } else {
+    assetChart = new Chart(ctx, {
+      type: 'pie',
+      data: data,
+      options: options
+    });
+  }
+}
+
+</script>
+</body>
+</html>
