@@ -50,6 +50,7 @@
   h1 { font-size:24px; color: var(--text-color); margin:0; font-weight:700; flex:1; }
   .dark-toggle { padding:6px 12px; border-radius:20px; border:1px solid var(--text-color); background:none; color:var(--text-color); cursor:pointer; transition:0.3s; margin-top:5px; }
   .dark-toggle:hover { background: var(--text-color); color: var(--card-bg); }
+  .privacy-toggle { padding:6px 12px; border-radius:20px; border:1px solid var(--text-color); background:none; color:var(--text-color); cursor:pointer; margin-top:5px; }
 
   .card {
     background: var(--card-bg);
@@ -65,6 +66,7 @@
 
   .card label { display:block; font-weight:500; color: var(--label-color); margin-bottom:6px; font-size:14px; }
   .card input { width:100%; padding:12px; border-radius:12px; border:1px solid var(--input-border); font-size:16px; outline:none; background:var(--input-bg); color: var(--text-color); }
+  .card select { width:100%; padding:12px; border-radius:12px; border:1px solid var(--input-border); font-size:16px; background:var(--input-bg); color:var(--text-color); }
 
   button.calculate-btn { width:100%; padding:14px; border-radius:15px; border:none; background: var(--button-gradient); color:white; font-size:16px; font-weight:600; cursor:pointer; }
   button.calculate-btn:hover { transform: scale(1.05); }
@@ -81,12 +83,113 @@
   .summary p { display:flex; justify-content:space-between; margin:12px 0; font-size:16px; font-weight:500; color: var(--text-color); }
   .summary p span { font-weight:700; }
   .highlight span { color: var(--highlight-color); }
+  .custom-assets { margin-bottom:15px; }
+  .custom-assets h2 { margin:0 0 12px; color:var(--text-color); font-size:18px; }
+  .custom-asset-form { display:grid; grid-template-columns:1fr 1fr auto; gap:8px; }
+  .custom-asset-form input { min-width:0; width:100%; padding:10px; border:1px solid var(--input-border); border-radius:10px; background:var(--input-bg); color:var(--text-color); }
+  .custom-asset-form button,
+  .custom-asset-remove { padding:8px 10px; border:0; border-radius:10px; background:#fee2e2; color:#b91c1c; cursor:pointer; font-weight:600; }
+  .custom-asset-form button { background:var(--button-gradient); color:#fff; }
+  .custom-asset-list { display:grid; gap:8px; margin-top:12px; }
+  .custom-asset-row { display:grid; grid-template-columns:minmax(0, 1fr) 110px auto; gap:8px; align-items:center; color:var(--text-color); }
+  .custom-asset-name { overflow-wrap:anywhere; }
+  .custom-asset-amount { text-align:right; }
+  body.privacy-mode .summary p span:last-child,
+  body.privacy-mode .history-entry-amount,
+  body.privacy-mode .custom-asset-amount,
+  body.privacy-mode #converterResult,
+  body.privacy-mode #converterRate,
+  body.privacy-mode #convertedAmount,
+  body.privacy-mode .financial-input,
+  body.privacy-mode #assetChart { filter:blur(8px); user-select:none; }
+  body.privacy-mode #assetChart { opacity:0.35; }
+
+  .converter {
+    margin-top: 18px;
+    padding: 18px;
+    border: 1px solid #e6e6e6;
+    border-radius: 20px;
+    background: var(--card-bg);
+  }
+  .converter h2 {
+    margin: 0 0 8px;
+    color: var(--text-color);
+    font-size: 18px;
+  }
+  .converter p {
+    margin: 0 0 14px;
+    color: var(--label-color);
+    font-size: 13px;
+    line-height: 1.5;
+  }
+  .converter-fields {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+    gap: 8px;
+    align-items: end;
+  }
+  .converter-field label {
+    display: block;
+    margin-bottom: 6px;
+    color: var(--label-color);
+    font-size: 13px;
+  }
+  .converter-field input,
+  .converter-field select {
+    width: 100%;
+    min-width: 0;
+    padding: 10px;
+    border: 1px solid var(--input-border);
+    border-radius: 10px;
+    background: var(--input-bg);
+    color: var(--text-color);
+    font-size: 14px;
+  }
+  .converter-field input { margin-bottom: 8px; }
+  .swap-btn {
+    width: 38px;
+    height: 38px;
+    margin-bottom: 2px;
+    border: 1px solid var(--input-border);
+    border-radius: 50%;
+    background: var(--input-bg);
+    color: var(--text-color);
+    cursor: pointer;
+    font-size: 18px;
+  }
+  .converter-result {
+    margin: 14px 0 8px;
+    color: var(--text-color);
+    font-size: 20px;
+    font-weight: 700;
+    overflow-wrap: anywhere;
+  }
+  .converter-rate {
+    margin-bottom: 12px !important;
+  }
+  .converter-refresh {
+    padding: 9px 12px;
+    border: 1px solid var(--text-color);
+    border-radius: 12px;
+    background: transparent;
+    color: var(--text-color);
+    cursor: pointer;
+  }
 
   /* History */
   .history { margin-top:15px; }
   .history h3 { margin-bottom:10px; color: var(--text-color); font-size:16px; }
+  .history > p { color:var(--label-color); font-size:13px; line-height:1.5; }
   .history ul { list-style:none; padding:0; max-height:200px; overflow-y:auto; }
   .history li { padding:10px; border-bottom:1px solid #e6e6e6; font-size:14px; color: var(--text-color); }
+  .history-entry-actions { display:flex; gap:8px; margin-top:8px; }
+  .history-entry-actions button { padding:6px 10px; border:0; border-radius:8px; cursor:pointer; font-weight:600; }
+  .history-edit-btn { background:#dbeafe; color:#1d4ed8; }
+  .history-delete-btn { background:#fee2e2; color:#b91c1c; }
+  .history-edit-btn:disabled { opacity:.55; cursor:not-allowed; }
+  .calculate-actions { display:flex; gap:8px; }
+  .calculate-actions button { flex:1; }
+  .cancel-edit-btn { padding:12px; border:1px solid var(--input-border); border-radius:15px; background:var(--input-bg); color:var(--text-color); cursor:pointer; }
 
   /* Toggle History Button */
   #toggleHistoryBtn { padding:6px 12px; border-radius:20px; border:1px solid var(--text-color); background:none; color:var(--text-color); cursor:pointer; margin-bottom:10px; }
@@ -99,6 +202,8 @@
     button.calculate-btn { font-size:14px; padding:12px; }
     .summary p { font-size:14px; }
     .history li { font-size:13px; }
+    .custom-asset-form { grid-template-columns:1fr 1fr; }
+    .custom-asset-form button { grid-column:1 / -1; }
   }
 
 </style>
@@ -110,37 +215,112 @@
 <div class="container">
 
   <div class="header">
-    <h1>Expense Tracker</h1>
+    <h1>Expense Tracker </h1>
+    <button id="privacyToggle" class="privacy-toggle" type="button" aria-pressed="false">Hide amounts</button>
     <button class="dark-toggle" onclick="toggleDarkMode()">🌙</button>
   </div>
 
   <!-- Input Cards -->
-  <div class="card"><label>💰 Current Bank Balance</label><input type="number" id="bankBalance" placeholder="e.g. 5000"></div>
-  <div class="card"><label>🔒 Blocked Amount</label><input type="number" id="blockedAmount" placeholder="e.g. 500"></div>
-  <div class="card"><label>🤝 Loan to Friends</label><input type="number" id="loanFriends" placeholder="e.g. 800"></div>
-  <div class="card"><label>🧾 Tax Return (Expected)</label><input type="number" id="taxReturn" placeholder="e.g. 300"></div>
-  <div class="card"><label>💵 Upcoming Salary</label><input type="number" id="salary" placeholder="e.g. 2000"></div>
+  <div class="card"><label>💰 Current Bank Balance</label><input class="financial-input" type="number" id="bankBalance" placeholder="e.g. 5000"></div>
+  <div class="card"><label>🔒 Blocked Amount</label><input class="financial-input" type="number" id="blockedAmount" placeholder="e.g. 500"></div>
+  <div class="card"><label>🤝 Loan to Friends</label><input class="financial-input" type="number" id="loanFriends" placeholder="e.g. 800"></div>
+  <div class="card"><label>🧾 Tax Return (Expected)</label><input class="financial-input" type="number" id="taxReturn" placeholder="e.g. 300"></div>
+  <div class="card">
+    <label for="salary">💵 Upcoming Salary</label>
+    <input class="financial-input" type="number" id="salary" placeholder="e.g. 2000">
+    <label for="salaryTiming" style="margin-top:12px;">Expected salary timing</label>
+    <select id="salaryTiming">
+      <option value="unspecified">Not specified</option>
+      <option value="next-week">Next week</option>
+      <option value="next-month">Next month</option>
+      <option value="specific-date">Choose a date</option>
+    </select>
+    <div id="salaryDateField" hidden>
+      <label for="salaryDate" style="margin-top:12px;">Expected date</label>
+      <input id="salaryDate" type="date">
+    </div>
+  </div>
+  <div class="card"><label for="reserveAmount">🏦 To Send Amount (€)</label><input class="financial-input" type="number" id="reserveAmount" min="0" step="0.01" value="10000" required></div>
+
+  <section class="card custom-assets" aria-labelledby="customAssetsHeading">
+    <h2 id="customAssetsHeading">Custom Assets</h2>
+    <form id="customAssetForm" class="custom-asset-form">
+      <input id="customAssetName" type="text" maxlength="40" placeholder="Asset name (e.g. Savings)" aria-label="Custom asset name" required>
+      <input id="customAssetAmount" class="financial-input" type="number" min="0" step="0.01" placeholder="Amount (€)" aria-label="Custom asset amount" required>
+      <button type="submit">Add Asset</button>
+    </form>
+    <div id="customAssetList" class="custom-asset-list" aria-live="polite"></div>
+  </section>
 
   <!-- Calculate Button -->
-  <div class="card"><button class="calculate-btn" onclick="calculate()">Calculate</button></div>
+  <div class="card">
+    <div class="calculate-actions">
+      <button class="calculate-btn" onclick="calculate()">Calculate</button>
+      <button id="cancelCalculationEdit" class="cancel-edit-btn" type="button" hidden>Cancel edit</button>
+    </div>
+  </div>
 
   <!-- Summary -->
   <div class="summary" id="summary">
     <p class="highlight"><span>Total Amount</span><span id="totalAmount">€0</span></p>
     <p class="MyAsset"><span>My Asset</span><span id="myAsset">€0</span></p>
     <p class="Conversion"><span>In PKR</span><span id="PKR">₹0</span></p>
+    <p><span>EUR → PKR rate</span><span id="summaryRate">—</span></p>
+    <p id="summaryError" role="alert" hidden></p>
   </div>
     <!-- Pie Chart -->
 <div class="card">
   <canvas id="assetChart" style="max-width:100%;"></canvas>
 </div>
 
-  <!-- Toggle History -->
-  <button id="toggleHistoryBtn">Hide History</button>
+<section class="converter" aria-labelledby="converterHeading">
+  <h2 id="converterHeading">Currency Converter</h2>
+  <p>Uses the latest available public reference rate. Your bank or exchange service may offer a different rate or charge fees.</p>
+  <div class="converter-fields">
+    <div class="converter-field">
+      <label for="convertAmount">Amount</label>
+      <input id="convertAmount" class="financial-input" type="number" min="0" step="any" value="1" inputmode="decimal">
+      <select id="convertFrom" aria-label="Convert from currency">
+        <option value="EUR">EUR</option>
+        <option value="PKR">PKR</option>
+        <option value="USD">USD</option>
+        <option value="GBP">GBP</option>
+        <option value="AED">AED</option>
+        <option value="SAR">SAR</option>
+        <option value="INR">INR</option>
+        <option value="CAD">CAD</option>
+        <option value="AUD">AUD</option>
+      </select>
+    </div>
+    <button id="swapCurrencies" class="swap-btn" type="button" aria-label="Swap currencies">⇄</button>
+    <div class="converter-field">
+      <label for="convertTo">Convert to</label>
+      <input id="convertedAmount" type="text" readonly aria-label="Converted amount">
+      <select id="convertTo" aria-label="Convert to currency">
+        <option value="PKR">PKR</option>
+        <option value="EUR">EUR</option>
+        <option value="USD">USD</option>
+        <option value="GBP">GBP</option>
+        <option value="AED">AED</option>
+        <option value="SAR">SAR</option>
+        <option value="INR">INR</option>
+        <option value="CAD">CAD</option>
+        <option value="AUD">AUD</option>
+      </select>
+    </div>
+  </div>
+  <div id="converterResult" class="converter-result" aria-live="polite">Loading exchange rate…</div>
+  <p id="converterRate" class="converter-rate" aria-live="polite"></p>
+  <button id="refreshRate" class="converter-refresh" type="button">Refresh rate</button>
+</section>
+
+<!-- Toggle History -->
+<button id="toggleHistoryBtn">Hide History</button>
 
   <!-- History Log -->
   <div class="history" id="history">
     <h3>Calculation History</h3>
+    <p>Older calculations can be deleted, but can’t be edited because their original inputs weren’t saved.</p>
     <ul id="historyList"></ul>
   </div>
 
@@ -150,57 +330,437 @@
   function toggleDarkMode(){document.body.classList.toggle('dark-mode');}
 
   const MAX_HISTORY = 10;
+  const RESERVE_STORAGE_KEY = 'calculatorReserveAmount';
+  const CUSTOM_ASSETS_STORAGE_KEY = 'calculatorCustomAssets';
 
-  function calculate(){
-    const Room_deposit=480;
+  let currentExchangeRate = null;
+  let exchangeRateRequest = 0;
+  let editingHistoryId = null;
+  let customAssets = [];
+
+  function makeCustomAssetId(){
+    return `${Date.now()}-${Math.random().toString(36).slice(2)}`;
+  }
+
+  function saveCustomAssets(){
+    localStorage.setItem(CUSTOM_ASSETS_STORAGE_KEY, JSON.stringify(customAssets));
+  }
+
+  function renderCustomAssets(){
+    const list = document.getElementById('customAssetList');
+    list.replaceChildren();
+
+    customAssets.forEach((asset) => {
+      const row = document.createElement('div');
+      row.className = 'custom-asset-row';
+      const name = document.createElement('span');
+      name.className = 'custom-asset-name';
+      name.textContent = asset.name;
+      const amount = document.createElement('span');
+      amount.className = 'custom-asset-amount';
+      amount.textContent = `€${Number(asset.amount).toLocaleString()}`;
+      const remove = document.createElement('button');
+      remove.type = 'button';
+      remove.className = 'custom-asset-remove';
+      remove.textContent = 'Remove';
+      remove.dataset.id = asset.id;
+      remove.setAttribute('aria-label', `Remove ${asset.name}`);
+      row.append(name, amount, remove);
+      list.appendChild(row);
+    });
+  }
+
+  function initCustomAssets(){
+    try {
+      const stored = JSON.parse(localStorage.getItem(CUSTOM_ASSETS_STORAGE_KEY) || '[]');
+      if (Array.isArray(stored)) {
+        customAssets = stored.filter(asset =>
+          asset && typeof asset.name === 'string' && Number.isFinite(Number(asset.amount)) && Number(asset.amount) >= 0
+        ).map(asset => ({
+          id: typeof asset.id === 'string' ? asset.id : makeCustomAssetId(),
+          name: asset.name,
+          amount: Number(asset.amount)
+        }));
+      }
+    } catch (error) {
+      console.error('Unable to load saved custom assets:', error);
+      customAssets = [];
+    }
+
+    renderCustomAssets();
+    document.getElementById('customAssetForm').addEventListener('submit', (event) => {
+      event.preventDefault();
+      const nameInput = document.getElementById('customAssetName');
+      const amountInput = document.getElementById('customAssetAmount');
+      const name = nameInput.value.trim();
+      const amount = Number(amountInput.value);
+      if (!name || amountInput.value === '' || !Number.isFinite(amount) || amount < 0) return;
+
+      customAssets.push({id: makeCustomAssetId(), name, amount});
+      saveCustomAssets();
+      renderCustomAssets();
+      event.currentTarget.reset();
+    });
+
+    document.getElementById('customAssetList').addEventListener('click', (event) => {
+      const removeButton = event.target.closest('button[data-id]');
+      if (!removeButton) return;
+      customAssets = customAssets.filter(asset => asset.id !== removeButton.dataset.id);
+      saveCustomAssets();
+      renderCustomAssets();
+    });
+  }
+
+  function initPrivacyMode(){
+    const button = document.getElementById('privacyToggle');
+    button.addEventListener('click', () => {
+      const isHidden = document.body.classList.toggle('privacy-mode');
+      button.textContent = isHidden ? 'Show amounts' : 'Hide amounts';
+      button.setAttribute('aria-pressed', String(isHidden));
+    });
+  }
+
+  function initReserveAmount(){
+    const reserveInput = document.getElementById('reserveAmount');
+    const savedReserve = localStorage.getItem(RESERVE_STORAGE_KEY);
+    if (savedReserve !== null && savedReserve !== '' && Number.isFinite(Number(savedReserve)) && Number(savedReserve) >= 0) {
+      reserveInput.value = savedReserve;
+    }
+
+    reserveInput.addEventListener('input', () => {
+      if (reserveInput.value !== '' && reserveInput.validity.valid) {
+        localStorage.setItem(RESERVE_STORAGE_KEY, reserveInput.value);
+      }
+    });
+  }
+
+  function initSalaryTiming(){
+    const timingSelect = document.getElementById('salaryTiming');
+    const dateField = document.getElementById('salaryDateField');
+    const dateInput = document.getElementById('salaryDate');
+
+    timingSelect.addEventListener('change', () => {
+      const needsDate = timingSelect.value === 'specific-date';
+      dateField.hidden = !needsDate;
+      dateInput.required = needsDate;
+      if (!needsDate) dateInput.value = '';
+    });
+  }
+
+  function updateConvertedAmount(){
+    const amountInput = document.getElementById('convertAmount');
+    const amount = Number(amountInput.value);
+    const from = document.getElementById('convertFrom').value;
+    const to = document.getElementById('convertTo').value;
+    const result = document.getElementById('converterResult');
+
+    if (!Number.isFinite(amount) || amount < 0) {
+      result.textContent = 'Enter a valid non-negative amount.';
+      document.getElementById('convertedAmount').value = '';
+      return;
+    }
+
+    if (currentExchangeRate === null) return;
+
+    const converted = amount * currentExchangeRate;
+    const formatted = new Intl.NumberFormat(undefined, {
+      style: 'currency',
+      currency: to,
+      maximumFractionDigits: 2
+    }).format(converted);
+    document.getElementById('convertedAmount').value = formatted;
+    result.textContent = `${amount} ${from} = ${formatted}`;
+  }
+
+  async function loadExchangeRate(){
+    const from = document.getElementById('convertFrom').value;
+    const to = document.getElementById('convertTo').value;
+    const result = document.getElementById('converterResult');
+    const rateText = document.getElementById('converterRate');
+    const requestId = ++exchangeRateRequest;
+
+    if (from === to) {
+      currentExchangeRate = 1;
+      rateText.textContent = '1 ' + from + ' = 1 ' + to;
+      updateConvertedAmount();
+      return;
+    }
+
+    currentExchangeRate = null;
+    result.textContent = 'Loading exchange rate…';
+    rateText.textContent = '';
+    document.getElementById('convertedAmount').value = '';
+
+    try {
+      const data = await fetchExchangeRates(from);
+      if (requestId !== exchangeRateRequest) return;
+      if (data.result !== 'success' || typeof data.rates?.[to] !== 'number') {
+        throw new Error(`Rate for ${to} is unavailable`);
+      }
+
+      currentExchangeRate = data.rates[to];
+      rateText.textContent = `1 ${from} = ${currentExchangeRate.toLocaleString(undefined, { maximumSignificantDigits: 6 })} ${to}. Updated ${data.time_last_update_utc || 'recently'}.`;
+      updateConvertedAmount();
+    } catch (error) {
+      if (requestId !== exchangeRateRequest) return;
+      currentExchangeRate = null;
+      result.textContent = 'Could not load the exchange rate. Check your connection and try again.';
+      rateText.textContent = '';
+      console.error('Unable to load currency exchange rate:', error);
+    }
+  }
+
+  async function fetchExchangeRates(baseCurrency){
+    const response = await fetch(`https://open.er-api.com/v6/latest/${encodeURIComponent(baseCurrency)}`);
+    if (!response.ok) throw new Error(`Exchange-rate service returned ${response.status}`);
+    const data = await response.json();
+    if (data.result !== 'success' || !data.rates) {
+      throw new Error(`Exchange rates for ${baseCurrency} are unavailable`);
+    }
+    return data;
+  }
+
+  function initCurrencyConverter(){
+    document.getElementById('convertAmount').addEventListener('input', updateConvertedAmount);
+    document.getElementById('convertFrom').addEventListener('change', loadExchangeRate);
+    document.getElementById('convertTo').addEventListener('change', loadExchangeRate);
+    document.getElementById('refreshRate').addEventListener('click', loadExchangeRate);
+    document.getElementById('swapCurrencies').addEventListener('click', () => {
+      const from = document.getElementById('convertFrom');
+      const to = document.getElementById('convertTo');
+      const previousFrom = from.value;
+      from.value = to.value;
+      to.value = previousFrom;
+      loadExchangeRate();
+    });
+    loadExchangeRate();
+  }
+
+  async function calculate(){
+    // const Room_deposit=480;
     const bank=Number(document.getElementById('bankBalance').value)||0;
     const blocked=Number(document.getElementById('blockedAmount').value)||0;
     const loan=Number(document.getElementById('loanFriends').value)||0;
     const tax=Number(document.getElementById('taxReturn').value)||0;
     const salary=Number(document.getElementById('salary').value)||0;
+    const salaryTiming = document.getElementById('salaryTiming').value;
+    const salaryDate = document.getElementById('salaryDate').value;
+    const reserveInput = document.getElementById('reserveAmount');
+    const reserve = Number(reserveInput.value);
+    const customAssetTotal = customAssets.reduce((total, asset) => total + Number(asset.amount), 0);
+    const totalAmount=bank+blocked+loan+tax+salary+customAssetTotal;
+    const Mybalance=totalAmount-reserve;
+    const calculateButton = document.querySelector('.calculate-btn');
+    const summaryError = document.getElementById('summaryError');
+    const usesConverterRate =
+      document.getElementById('convertFrom').value === 'EUR' &&
+      document.getElementById('convertTo').value === 'PKR' &&
+      currentExchangeRate !== null;
 
-    const totalAmount=bank+blocked+loan+tax+salary+Room_deposit;
-    const Mybalance=totalAmount-10000;
-    const Conversion=Mybalance*330;
-
-    document.getElementById('totalAmount').innerText=`€${totalAmount}`;
-    document.getElementById('myAsset').innerText=`€${Mybalance}`;
-    document.getElementById('PKR').innerText=`₹${Conversion}`;
+    calculateButton.disabled = true;
+    summaryError.hidden = true;
 
     document.getElementById('summary').classList.add('active');
 
-    countUp('totalAmount',totalAmount);
-    countUp('myAsset',Mybalance);
-    countUp('PKR',Conversion);
+    try {
+      if (reserveInput.value === '' || !reserveInput.validity.valid || !Number.isFinite(reserve) || reserve < 0) {
+        throw new Error('Enter a valid reserve amount of zero or more.');
+      }
+      if (salaryTiming === 'specific-date' && !salaryDate) {
+        throw new Error('Choose an expected salary date.');
+      }
+      const rateData = usesConverterRate ? null : await fetchExchangeRates('EUR');
+      const eurToPkrRate = usesConverterRate ? currentExchangeRate : rateData.rates.PKR;
+      if (typeof eurToPkrRate !== 'number') {
+        throw new Error('EUR to PKR exchange rate is unavailable');
+      }
+      const Conversion=Mybalance*eurToPkrRate;
 
-    addHistory(totalAmount,Mybalance,Conversion);
-    updateChart(bank, blocked, loan, tax, salary);
+      document.getElementById('totalAmount').innerText=`€${totalAmount}`;
+      document.getElementById('myAsset').innerText=`€${Mybalance}`;
+      document.getElementById('PKR').innerText=`₹${Conversion}`;
+      document.getElementById('summaryRate').textContent =
+        `1 EUR = ${eurToPkrRate.toLocaleString(undefined, { maximumSignificantDigits: 6 })} PKR`;
+
+      countUp('totalAmount',totalAmount);
+      countUp('myAsset',Mybalance);
+      countUp('PKR',Conversion);
+
+      addHistory(totalAmount,Mybalance,Conversion,{
+        bank,
+        blocked,
+        loan,
+        tax,
+        salary,
+        salaryTiming,
+        salaryDate,
+        reserve,
+        customAssets: customAssets.map(asset => ({...asset}))
+      },editingHistoryId);
+      cancelHistoryEdit();
+      updateChart(bank, blocked, loan, tax, salary, customAssets);
+    } catch (error) {
+      summaryError.textContent = error.message === 'Enter a valid reserve amount of zero or more.'
+        ? error.message
+        : error.message === 'Choose an expected salary date.'
+          ? error.message
+          : 'Could not load the EUR to PKR rate. Please try Calculate again.';
+      summaryError.hidden = false;
+      if (error.message !== 'Enter a valid reserve amount of zero or more.' && error.message !== 'Choose an expected salary date.') {
+        document.getElementById('summaryRate').textContent = 'Unavailable';
+        console.error('Unable to calculate using the EUR to PKR exchange rate:', error);
+      }
+    } finally {
+      calculateButton.disabled = false;
+    }
   }
   
 
 
-  function addHistory(total,asset,conversion){
-    let history=JSON.parse(localStorage.getItem('calcHistory'))||[];
-    const now=new Date();
-    const entry={total,asset,conversion,time:now.toLocaleString()};
-    history.unshift(entry);
-    if(history.length>MAX_HISTORY) history.pop();
+  function getCalculationHistory(){
+    const history=JSON.parse(localStorage.getItem('calcHistory'))||[];
+    let updated = false;
+    history.forEach((entry) => {
+      if (!entry.id) {
+        entry.id = `${Date.now()}-${Math.random().toString(36).slice(2)}`;
+        updated = true;
+      }
+    });
+    if (updated) localStorage.setItem('calcHistory',JSON.stringify(history));
+    return history;
+  }
+
+  function addHistory(total,asset,conversion,inputs,entryId){
+    const history=getCalculationHistory();
+    const entry={
+      id: entryId || `${Date.now()}-${Math.random().toString(36).slice(2)}`,
+      total,
+      asset,
+      conversion,
+      inputs,
+      time: new Date().toLocaleString()
+    };
+    const existingIndex = entryId ? history.findIndex(item => item.id === entryId) : -1;
+    if (existingIndex >= 0) {
+      history[existingIndex] = entry;
+    } else {
+      history.unshift(entry);
+      if(history.length>MAX_HISTORY) history.pop();
+    }
     localStorage.setItem('calcHistory',JSON.stringify(history));
     renderHistory();
   }
 
   function renderHistory(){
     const historyList=document.getElementById('historyList');
-    const history=JSON.parse(localStorage.getItem('calcHistory'))||[];
+    const history=getCalculationHistory();
     historyList.innerHTML='';
     history.forEach(entry=>{
       const li=document.createElement('li');
-      li.innerHTML=`<strong>${entry.time}</strong> - Total: €${entry.total}, Asset: €${entry.asset}, PKR: ₹${entry.conversion}`;
+      const details = document.createElement('div');
+      const timestamp = document.createElement('strong');
+      timestamp.textContent = entry.time;
+      details.append(timestamp, document.createTextNode(
+        ' - '
+      ));
+      const amounts = document.createElement('span');
+      amounts.className = 'history-entry-amount';
+      amounts.textContent = `Total: €${entry.total}, Asset: €${entry.asset}, PKR: ₹${entry.conversion}`;
+      details.appendChild(amounts);
+      if (entry.inputs?.salaryTiming && entry.inputs.salaryTiming !== 'unspecified') {
+        const salaryTiming = entry.inputs.salaryTiming === 'specific-date'
+          ? `Salary expected: ${entry.inputs.salaryDate || 'Date not set'}`
+          : `Salary expected: ${entry.inputs.salaryTiming === 'next-week' ? 'Next week' : 'Next month'}`;
+        details.appendChild(document.createTextNode(` | ${salaryTiming}`));
+      }
+
+      const actions = document.createElement('div');
+      actions.className = 'history-entry-actions';
+
+      const editButton = document.createElement('button');
+      editButton.type = 'button';
+      editButton.className = 'history-edit-btn';
+      editButton.textContent = 'Edit';
+      editButton.dataset.action = 'edit';
+      editButton.dataset.id = entry.id;
+      editButton.disabled = !entry.inputs;
+      if (!entry.inputs) editButton.title = 'This older calculation does not have saved input values.';
+
+      const deleteButton = document.createElement('button');
+      deleteButton.type = 'button';
+      deleteButton.className = 'history-delete-btn';
+      deleteButton.textContent = 'Delete';
+      deleteButton.dataset.action = 'delete';
+      deleteButton.dataset.id = entry.id;
+
+      actions.append(editButton, deleteButton);
+      li.append(details, actions);
       historyList.appendChild(li);
     });
   }
 
-  window.onload=renderHistory;
+  function cancelHistoryEdit(){
+    editingHistoryId = null;
+    document.querySelector('.calculate-btn').textContent = 'Calculate';
+    document.getElementById('cancelCalculationEdit').hidden = true;
+  }
+
+  function loadHistoryEntry(entryId){
+    const history = getCalculationHistory();
+    const entry = history.find(item => item.id === entryId);
+    if (!entry || !entry.inputs) return;
+
+    document.getElementById('bankBalance').value = entry.inputs.bank;
+    document.getElementById('blockedAmount').value = entry.inputs.blocked;
+    document.getElementById('loanFriends').value = entry.inputs.loan;
+    document.getElementById('taxReturn').value = entry.inputs.tax;
+    document.getElementById('salary').value = entry.inputs.salary;
+    document.getElementById('salaryTiming').value = entry.inputs.salaryTiming || 'unspecified';
+    document.getElementById('salaryDate').value = entry.inputs.salaryDate || '';
+    document.getElementById('salaryTiming').dispatchEvent(new Event('change'));
+    document.getElementById('reserveAmount').value = entry.inputs.reserve;
+    localStorage.setItem(RESERVE_STORAGE_KEY, String(entry.inputs.reserve));
+    customAssets = Array.isArray(entry.inputs.customAssets)
+      ? entry.inputs.customAssets.map(asset => ({...asset}))
+      : [];
+    saveCustomAssets();
+    renderCustomAssets();
+
+    editingHistoryId = entry.id;
+    document.querySelector('.calculate-btn').textContent = 'Update Calculation';
+    document.getElementById('cancelCalculationEdit').hidden = false;
+    document.getElementById('bankBalance').scrollIntoView({behavior:'smooth', block:'center'});
+    document.getElementById('bankBalance').focus({preventScroll:true});
+  }
+
+  function handleHistoryAction(event){
+    const button = event.target.closest('button[data-action]');
+    if (!button) return;
+
+    const history = getCalculationHistory();
+    const entryId = button.dataset.id;
+    if (button.dataset.action === 'edit') {
+      loadHistoryEntry(entryId);
+      return;
+    }
+
+    if (button.dataset.action === 'delete' && window.confirm('Delete this calculation from history?')) {
+      localStorage.setItem('calcHistory',JSON.stringify(history.filter(entry => entry.id !== entryId)));
+      if (editingHistoryId === entryId) cancelHistoryEdit();
+      renderHistory();
+    }
+  }
+
+  window.onload=function(){
+    renderHistory();
+    initReserveAmount();
+    initSalaryTiming();
+    initCustomAssets();
+    initPrivacyMode();
+    initCurrencyConverter();
+    document.getElementById('historyList').addEventListener('click', handleHistoryAction);
+    document.getElementById('cancelCalculationEdit').addEventListener('click', cancelHistoryEdit);
+  };
   
  const toggleHistoryBtn = document.getElementById('toggleHistoryBtn');
 const historyDiv = document.getElementById('history');
@@ -231,21 +791,22 @@ toggleHistoryBtn.addEventListener('click', () => {
 //   
 let assetChart; // Global variable for chart instance
 
-function updateChart(bank, blocked, loan, tax, salary) {
+function updateChart(bank, blocked, loan, tax, salary, additionalAssets = []) {
   const ctx = document.getElementById('assetChart').getContext('2d');
 
   const data = {
-    labels: ['Bank Balance', 'Blocked Amount', 'Loan to Friends', 'Tax Return', 'Upcoming Salary', 'Room Deposit'],
+    labels: ['Bank Balance', 'Blocked Amount', 'Loan to Friends', 'Tax Return', 'Upcoming Salary', ...additionalAssets.map(asset => asset.name)],
     datasets: [{
       label: 'Assets Distribution',
-      data: [bank, blocked, loan, tax, salary, 480], // Room deposit fixed
+      data: [bank, blocked, loan, tax, salary, ...additionalAssets.map(asset => Number(asset.amount))],
       backgroundColor: [
         '#f44336', // red
         '#2196f3', // blue
         '#ff9800', // orange
         '#4caf50', // green
         '#9c27b0', // purple
-        '#00bcd4'  // cyan
+        '#00bcd4', // cyan
+        ...additionalAssets.map((_, index) => `hsl(${(index * 67 + 180) % 360}, 65%, 55%)`)
       ],
       borderWidth: 1
     }]
